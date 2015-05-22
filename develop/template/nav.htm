@@ -1,0 +1,31 @@
+<!--{if $action == 'edit'}-->
+<div class="tbmu bbda mbm">
+	<a href="develop.php?mod=plugin&action=edit&operation=regplugin&pluginid=$pluginid" $cur_operation['regplugin']>Basic information</a>
+	<span class="pipe">|</span>
+	<a href="develop.php?mod=plugin&action=edit&operation=script&pluginid=$pluginid" $cur_operation['script']>Scripting</a>
+	<span class="pipe">|</span>
+	<a href="develop.php?mod=plugin&action=edit&operation=setting&pluginid=$pluginid" $cur_operation['setting']>Plug-in variable settings</a>
+	<span class="pipe">|</span>
+	<a href="develop.php?mod=plugin&action=edit&operation=language&pluginid=$pluginid" $cur_operation['language']>Language package management</a>
+	<span class="pipe">|</span>
+	<a href="develop.php?mod=plugin&action=edit&operation=style&pluginid=$pluginid" $cur_operation['style']>Style Manager</a>
+	<span class="pipe">|</span>
+	<a href="develop.php?mod=plugin&action=edit&operation=export&pluginid=$pluginid" $cur_operation['export']>Export plug-in package</a>
+</div>
+<!--{/if}-->
+
+<!--{if $action == 'create'}-->
+<ul class="step cl">
+	<li{if $operation == 'regplugin'} class="a"{/if}><em>1</em><p>Create widget</p></li>
+	<li class="arrow">&rsaquo;</li>
+	<li{if $operation == 'script'} class="a"{/if}><em>2</em><p>Edit Script</p></li>
+	<li class="arrow">&rsaquo;</li>
+	<li{if $operation == 'setting'} class="a"{/if}><em>3</em><p>Setting variables</p></li>
+	<li class="arrow">&rsaquo;</li>
+	<li{if $operation == 'language'} class="a"{/if}><em>4</em><p>Edit Language Packs</p></li>
+	<li class="arrow">&rsaquo;</li>
+	<li{if $operation == 'style'} class="a"{/if}><em>5</em><p>Edit Expansion CSS</p></li>
+	<li class="arrow">&rsaquo;</li>
+	<li><em>6</em><p>Export plug-in package</p></li>
+</ul>
+<!--{/if}-->

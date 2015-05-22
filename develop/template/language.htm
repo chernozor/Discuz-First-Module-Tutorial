@@ -1,0 +1,100 @@
+<div class="bm">
+	<!--{if $action == 'edit'}-->
+	<div class="bm_h">
+		<h2>Design $plugin['name']</h2>
+	</div>
+	<!--{/if}-->
+	<div class="bm_c cl">
+
+		<!--{eval include template('nav', 0, 'develop/template');}-->
+
+		<script type="text/JavaScript">
+			var rowtypedata = [
+				[
+					[1,'<input type="text" name="languagenew_key[]" class="px" value="" />'],
+					[1,'<input type="text" name="languagenew_val[]" class="px" value="" size="50" />']
+				],
+				[
+					[1,'<input name="scriptlangnew_key[]" value="" type="text" class="px" />'],
+					[1,'<input type="text" name="scriptlangnew_val[]" class="px" value="" size="50" />']
+				],
+				[
+					[1,'<input name="installlangnew_key[]" value="" type="text" class="px" />'],
+					[1,'<input type="text" name="installlangnew_val[]" class="px" value="" size="50" />']
+				]
+			]
+			function showlang(id) {
+				var langarr = Array('templatelang','scriptlang','installlang');
+				for(i in langarr) {
+					if(langarr[i] == id) {
+						$(id).style.display = '';
+						$(id + '_ctrl').className = 'a';
+					} else {
+						$(langarr[i]).style.display = 'none';
+						$(langarr[i] + '_ctrl').className = '';
+					}
+				}
+			}
+		</script>
+		<form name="createform" method="post" autocomplete="off" action="develop.php?mod=plugin&action=$action&operation=$operation&pluginid=$pluginid">
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="pluginsubmit" value="true" />
+			<input type="hidden" name="pluginid" value="$pluginid" />
+			<ul class="tbmu bbda">
+				<li class="pbn">When you need to publish supports multiple encoding plug-in package, you should plug in the template language are extracted</li>
+				<li class="pbn">PHP Code usage：lang('plugin/The_unique_identifier(identifier)', 'Language Packs variable name')</li>
+				<li>Template code usage：$tpllang</li>
+			</ul>
+			<p class="tbmu mtm"><a href="javascript:void(0)" id="templatelang_ctrl" class="a" onclick="showlang('templatelang');">Template Language Packs</a><span class="pipe">|</span><a href="javascript:void(0)" id="scriptlang_ctrl" onclick="showlang('scriptlang');">Programming language package</a><span class="pipe">|</span><a href="javascript:void(0)" id="installlang_ctrl" onclick="showlang('installlang');">Setup language packs</a></p>
+			<table class="dt mbw" id="templatelang">
+				<tr><th class="o">Variable name</th><th>Chinese content</th></tr>
+				<!--{loop $templatelang[$plugin['identifier']] $key $val}-->
+				<tr>
+					<td>
+						<input type="text" name="languagenew_key[]" class="px" value="$key" />
+					</td>
+					<td>
+						<input type="text" name="languagenew_val[]" class="px" value="$val" size="50" />
+					</td>
+				</tr>
+				<!--{/loop}-->
+				<tr><td><a class="addtr" onclick="addrow(this, 0)" href="javascript:;">Increase</a></td><td></td></tr>
+			</table>
+			<table class="dt mbw" id="scriptlang" style="display: none">
+				<tr><th class="o">Variable name</th><th>Chinese content</th></tr>
+				<!--{loop $scriptlang[$plugin['identifier']] $key $val}-->
+				<tr>
+					<td>
+						<input type="text" name="scriptlangnew_key[]" class="px" value="$key" />
+					</td>
+					<td>
+						<input type="text" name="scriptlangnew_val[]" class="px" value="$val" size="50" />
+					</td>
+				</tr>
+				<!--{/loop}-->
+				<tr><td><a class="addtr" onclick="addrow(this, 1)" href="javascript:;">Increase</a></td><td></td></tr>
+			</table>
+			<table class="dt mbw" id="installlang" style="display: none">
+				<tr><th class="o">Variable name</th><th>Chinese content</th></tr>
+				<!--{loop $installlang[$plugin['identifier']] $key $val}-->
+				<tr>
+					<td>
+						<input type="text" name="installlangnew_key[]" class="px" value="$key" />
+					</td>
+					<td>
+						<input type="text" name="installlangnew_val[]" class="px" value="$val" size="50" />
+					</td>
+				</tr>
+				<!--{/loop}-->
+				<tr><td><a class="addtr" onclick="addrow(this, 2)" href="javascript:;">Increase</a></td><td></td></tr>
+			</table>
+			<div class="pbm">
+				<button value="true" class="pn pnc" name="pluginsbt" type="submit"><strong><!--{if $action == 'edit'}-->Submitted<!--{else}-->Next<!--{/if}--></strong></button>
+				<!--{if $action == 'create'}-->
+				&nbsp;<a href="develop.php?mod=plugins&action=create&operation=style&pluginid=$pluginid">Jump over</a>
+				<!--{/if}-->
+			</div>
+		</form>
+
+	</div>
+</div>

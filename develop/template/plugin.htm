@@ -1,0 +1,258 @@
+<div class="bm">
+    <!--{if $action == 'edit'}-->
+    <div class="bm_h">
+        <h2>Design $plugin['name']</h2><!--{if $plugin['version']}-->&nbsp;$plugin['version']<!--{/if}-->
+    </div>
+    <!--{/if}-->
+
+    <div class="bm_c cl">
+
+        <!--{eval include template('nav', 0, 'develop/template');}-->
+
+        <!--{if $action == 'create' || $action == 'edit'}-->
+        <form name="createform" method="post" autocomplete="off"
+              action="develop.php?mod=plugin&action=$action&operation=$operation&pluginid=$pluginid">
+            <input type="hidden" name="formhash" value="{FORMHASH}"/>
+            <input type="hidden" name="pluginsubmit" value="true"/>
+            <input type="hidden" name="pluginid" value="$plugin['pluginid']"/>
+            <input type="hidden" name="operation" value="$operation"/>
+            <!--{if $operation == 'regplugin'}-->
+            <table class="tfm mbm">
+                <tr>
+                    <th>The unique identifier</th>
+                    <td>
+                        <input type="text" name="identifiernew" id="identifiernew" class="px"
+                               value="$plugin['identifier']"/>
+
+                        <p class="mtm"><a class="pn z"
+                                          onclick="check_identifier('identifiernew', 'identifier_checking');"
+                                          href="#"><strong>Detection</strong></a>&nbsp;<span id="identifier_checking">Detecting whether the plug-in ID <a
+                                href="http://open.discuz.net/" target="_blank">Application Center</a> It has been occupied</span>
+                        </p>
+                    </td>
+                    <td class="xg1">The only English label widget can not duplicate existing plug-in ID. You can use
+                        letters, numbers, underscores name, can not contain other symbols or special characters, maximum
+                        40 bytes
+                    </td>
+                </tr>
+                <tr>
+                    <th>Plug-in name</th>
+                    <td><input name="namenew" value="$plugin['name']" type="text" class="px"/></td>
+                    <td class="xg1">This plug-in name, in English or Chinese, up to 40 bytes</td>
+                </tr>
+                <tr>
+                    <th>Plug-in version number</th>
+                    <td><input name="versionnew" value="$plugin['version']" type="text" class="px"/></td>
+                    <td class="xg1">Version of this plug-in, available in English, up to 20 bytes. When the version
+                        number is higher than the old version, you will be prompted to install the update to the user
+                    </td>
+                </tr>
+                <tr>
+                    <th>CMS Discuz! X The version number</th>
+                    <td><input name="dzversionnew" value="$plugin['modules']['extra']['version']" type="text"
+                               class="px"/></td>
+                    <td class="xg1">This plug-compatible Discuz! XVersions, such as：X1.5, X2, X2.5, X3.1</td>
+                </tr>
+                <tr>
+                    <th>Plug-in description:</th>
+                    <td><textarea class="pt" cols="60" rows="5" name="descriptionnew">$plugin['description']</textarea>
+                    </td>
+                    <td class="xg1">Brief description of plug-ins, up to 100 bytes, optional fill</td>
+                </tr>
+                <tr>
+                    <th>Copyright Information:</th>
+                    <td><input name="copyrightnew" value="$plugin['copyright']" type="text" class="px"/></td>
+                    <td class="xg1"></td>
+                </tr>
+                <tr class="bw0_all">
+                    <th></th>
+                    <td class="ptm">
+                        <button value="true" class="pn pnc" name="pluginsbt" type="submit"><strong>
+                            <!--{if $action == 'edit'}-->Submitted<!--{else}-->Next<!--{/if}--></strong></button>
+                    </td>
+                </tr>
+            </table>
+            <!--{elseif $operation == 'script'}-->
+            <!--{eval include template('script', 0, 'develop/template');}-->
+            <!--{elseif $operation == 'setting'}-->
+            <!--{if $editvar}-->
+            <input type="hidden" name="pluginvarid" value="$pluginvar['pluginvarid']"/>
+            <table class="tfm mbm">
+                <caption><h2 class="xw0 mbm">Plug-in variable settings - $pluginvar[title]</h2></caption>
+                <tr>
+                    <th>Configuration name</th>
+                    <td><input name="titlenew" value="$pluginvar[title]" type="text" class="px"/></td>
+                    <td class="xg1">English can be used to display the plug-in configuration menu, up to 100 bytes.
+                        Support language definition here, for example：lang_admincp.php Defined 'myaction'=>'My
+                        operating' It is here to fill myaction Then, it is a good multi-language version of the plug
+                        production
+                    </td>
+                </tr>
+                <tr>
+                    <th>Configuration instructions</th>
+                    <td><textarea rows="6" name="descriptionnew" id="descriptionnew" cols="50" class="px">$pluginvar[description]</textarea>
+                    </td>
+                    <td class="xg1">Describe the purpose and the range of this configuration, detailed description of
+                        favor widget users to understand the role of this set, up to 255 bytes. Similar profile name
+                        here and also supports language definition<br/>Double-click the input box can expand / shrink
+                    </td>
+                </tr>
+                <tr>
+                    <th>Configuration Type</th>
+                    <td>
+                        <!--{eval echo getVarTypeList('vartype', $pluginvar[type], true);}-->
+                    </td>
+                    <td class="xg1">Setting this configuration data type for the program to check and filter the
+                        appropriate configuration values
+                    </td>
+                </tr>
+                <tr>
+                    <th>Configuration variable name</th>
+                    <td><input name="variablenew" value="$pluginvar[variable]" type="text" class="px"/></td>
+                    <td class="xg1">Set the variable name of the configuration items for plug-in calls, including
+                        English, numbers and underscores, in the same plug-in need to maintain the uniqueness of
+                        variable names, up to 40 bytes
+                    </td>
+                </tr>
+                <tbody id="extra"
+                {if $pluginvar['type'] != 'select' && $pluginvar['type'] != 'selects'}style="display: none"{/if}>
+                <tr>
+                    <th>Expansion Set</th>
+                    <td><textarea rows="6" name="extranew" id="extranew" cols="50"
+                                  class="tarea">$pluginvar[extra]</textarea></td>
+                    <td class="xg1">Only effective when configuring type "select (select)", is used to set option
+                        values. Index options in front of the equal sign (recommended), was behind for the content, such
+                        as: <br/> <i> 1 = Optical Mouse<br/>
+                            2 = Mechanical mouse<br/>
+                            3 = No mouse</i><br/>
+                        Note: Do not modify options after determining the correspondence between the index and the
+                        contents, but still can add options. To swap the order, you can move up and down the whole line
+                        position to achieve<br/>
+                        Double-click the input box can expand / shrink
+                    </td>
+                </tr>
+                </tbody>
+                <tr>
+                    <th></th>
+                    <td>
+                        <button type="submit" name="varsubmit" id="submit_varsubmit" class="pn pnc"
+                                title="Press Enter Key to submit your changes at any time"><strong>Submit</strong>
+                        </button>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+            <!--{else}-->
+            <table class="dt mbm">
+                <tr>
+                    <th class="m">&nbsp;</th>
+                    <th class="num">Display Order</th>
+                    <th>Configuration Name (required)</th>
+                    <th>Configuration variable name (required)</th>
+                    <th>Configuration Type</th>
+                    <th class="details add"><a href="javascript:;" onclick="addTableRow('var');">+{eval echo
+                        $devlang['plugins_script_add'];}</a></th>
+                </tr>
+                <!--{loop $variables $varid $var}-->
+                <tr>
+                    <td class="m"><input type="checkbox" name="delete[]" class="pc" value="$varid"/></td>
+                    <td class="num"><input type="text" name="displayordernew[$varid]" class="px"
+                                           value="$var[displayorder]" size="2"/></td>
+                    <td>$var[title]</td>
+                    <td>$var[variable]</td>
+                    <td>$var[type]</td>
+                    <td class="details add"><a
+                            href="develop.php?mod=plugin&amp;action=edit&amp;operation=setting&amp;pluginid=$pluginid&amp;pluginvarid=$varid">Detail</a>
+                    </td>
+                </tr>
+                <!--{/loop}-->
+                <tbody id="varbox">
+                <tr id="varrow" style="display: none;">
+                    <td class="m">Added</td>
+                    <td class="num"><input type="text" name="newdisplayorder[]" class="px" value="0" size="2"/></td>
+                    <td><input type="text" name="newtitle[]" class="px" size="15"/></td>
+                    <td><input type="text" name="newvariable[]" class="px" size="15"/></td>
+                    <td>
+                        <!--{eval echo getVarTypeList('newtype[]', 'text');}-->
+                    </td>
+                    <td class="details add">
+                        <a href="javascript:" onclick="removeTableRow('var', this);">{eval echo
+                            $devlang['plugins_script_delete'];}</a>
+                    </td>
+                </tr>
+                </tbody>
+                <tr class="bw0_all">
+                    <td class="m"><input type="checkbox" onclick="checkAll(this.form, 'delete', 'chkall')" class="pc vm"
+                                         id="chkallr2bs" name="chkall"/><label for="chkallr2bs">Delete?</label></td>
+                    <td colspan="5">
+                        <button value="true" class="pn pnc" name="editsubmit" type="submit"><strong>
+                            <!--{if $action == 'edit'}-->Submitted<!--{else}-->Next<!--{/if}--></strong></button>
+                        <!--{if $action == 'create'}-->
+                        &nbsp;<a href="develop.php?mod=plugins&action=create&operation=language&pluginid=$pluginid">Jump
+                        over</a>
+                        <!--{/if}-->
+                    </td>
+                </tr>
+            </table>
+            <script type="text/javascript">
+                function addTableRow(type) {
+                    var newNode;
+                    newNode = $(type + 'row').cloneNode(true);
+                    newNode.removeAttribute('id');
+                    newNode.removeAttribute('style');
+                    $(type + 'box').appendChild(newNode);
+                }
+                function removeTableRow(type, obj) {
+                    $(type + 'box').removeChild(obj.parentNode.parentNode);
+                }
+                <!--{if empty($variables)}-->
+                addTableRow('var');
+                <!--{/if}-->
+            </script>
+            <!--{/if}-->
+            <!--{elseif $operation == 'language'}-->
+            <!--{elseif $operation == 'style'}-->
+            <table class="tfm mbm">
+                <tr>
+                    <th>Expand CSS</th>
+                    <td><textarea class="pt" cols="60" rows="5" name="extrastylenew">$extrastyle</textarea></td>
+                    <td class="xg1">Extension of CSS</td>
+                </tr>
+                <tr class="bw0_all">
+                    <th></th>
+                    <td>
+                        <button value="true" class="pn pnc" name="pluginsbt" type="submit"><strong>
+                            <!--{if $action == 'edit'}-->Submitted<!--{else}-->Next<!--{/if}--></strong></button>
+                        <!--{if $action == 'create'}-->
+                        &nbsp;<a href="develop.php?mod=plugins&action=edit&operation=export&pluginid=$pluginid">Jump
+                        over</a>
+                        <!--{/if}-->
+                    </td>
+                </tr>
+            </table>
+            <!--{elseif $operation == 'export'}-->
+            <ul class="tbmu bbda">
+                <li class="pbn">Plug-in package includes scripts that you set off, plug-in configuration XML file</li>
+                <li class="pbn">After you download the plug-in package can unzip "source\plugin\$plugin['identifier']"
+                    Development directory
+                </li>
+                <li class="pbn">XML is a plug-in your development process, continue to modify the configuration to use
+                    the plug-in, in order to save you from the plug-in convenience packages extract the increase of the
+                    XML, XML files need to be conducted to "source\plugin\$plugin['identifier']"
+                </li>
+                <li>After adding plug-hook you can export plug-in package that you are developing
+                    "source\plugin\$plugin['identifier']" Compared to the code you need to merge the past
+                </li>
+            </ul>
+            <div class="mtw pbw cl">
+                <a href="develop.php?mod=plugins&action=edit&operation=export&pluginid=$pluginid&down=zip"
+                   class="z pn pnc pncb xs3" style="margin-right: 10px;"><strong>Export plug-in package</strong></a>
+                <a href="develop.php?mod=plugins&action=edit&operation=export&pluginid=$pluginid&down=xml"
+                   class="z pn pnc pnc2 pncb xs3"><strong>Export plug XML</strong></a>
+            </div>
+            <!--{/if}-->
+        </form>
+        <!--{/if}-->
+
+    </div>
+</div>

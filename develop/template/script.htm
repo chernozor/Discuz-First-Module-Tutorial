@@ -1,0 +1,439 @@
+<!--{if $scriptList}-->
+<ul class="tbmu bbda mbw">
+    <li>First fill in the appropriate script file name, and then click on the "details" in appropriate settings</li>
+</ul>
+
+<table class="dt mbw">
+    <tr>
+        <td class="time">Normal Page embed script</td>
+        <td width="300"><input type="text" name="script[general]" class="px" value="$scripts[general][name]"/>.class.php
+        </td>
+        <td></td>
+        <td class="details">
+            <!--{if $scripts[general][name]}-->
+            <a href="develop.php?mod=plugins&action=edit&operation=script&pluginid=$pluginid&type=general&filename=$scripts[general][name]">Detail</a>
+            <!--{/if}-->
+        </td>
+    </tr>
+    <tr>
+        <td>Special Topics embedded script</td>
+        <td><input type="text" name="script[special]" class="px" value="$scripts[special][name]"/>.class.php</td>
+        <td></td>
+        <td class="details">
+            <!--{if $scripts[special][name]}-->
+            <a href="develop.php?mod=plugins&action=edit&operation=script&pluginid=$pluginid&type=special&filename=$scripts[special][name]">Detail</a>
+            <!--{/if}-->
+        </td>
+    </tr>
+    <tr>
+        <td>Mobile phone page to embed script</td>
+        <td><input type="text" name="script[mobile]" class="px" value="$scripts[mobile][name]"/>.class.php</td>
+        <td></td>
+        <td class="details">
+            <!--{if $scripts[mobile][name]}-->
+            <a href="develop.php?mod=plugins&action=edit&operation=script&pluginid=$pluginid&type=mobile&filename=$scripts[mobile][name]">Detail</a>
+            <!--{/if}-->
+        </td>
+    </tr>
+</table>
+
+<!--{loop $scripttype $type}-->
+<!--{eval $langkey = 'plugins_script_'.$type;}-->
+<table class="dt mbw">
+    <tr>
+        <th class="time">{eval echo $devlang[$langkey];}</th>
+        <th width="300"><a href="javascript:;" onclick="addTableRow('$type');">{eval echo
+            $devlang['plugins_script_add'];}</a></th>
+        <th></th>
+        <th class="details"></th>
+    </tr>
+    <tbody id="{$type}box">
+    <tr id="{$type}row" style="display: none;">
+        <td></td>
+        <td>
+            <!--{if $type != 'navigation'}-->
+            {$type}/{$type}_<input type="text" name="script[$type][]" class="px" value=""/>.php
+            <!--{else}-->
+            <input type="text" name="script[$type][]" class="px" value=""/>.inc.php
+            <!--{/if}-->
+        </td>
+        <td></td>
+        <td class="details">
+            <a href="javascript:;" onclick="removeTableRow('$type', this);">{eval echo
+                $devlang['plugins_script_delete'];}</a>
+        </td>
+    </tr>
+    <!--{if $scripts[$type]}-->
+    <!--{loop $scripts[$type] $filename $script}-->
+    <tr>
+        <td>
+            <label><input type="checkbox" name="delete[$type][$filename]" class="pc vm" value="$filename"/>删</label>
+        </td>
+        <td>
+            <!--{if $type != 'navigation'}-->
+            {$type}/{$type}_<input type="text" name="script[$type][$filename]" class="px" value="$filename"/>.php
+            <!--{else}-->
+            <input type="text" name="script[$type][$filename]" class="px" value="$filename"/>.inc.php
+            <!--{/if}-->
+        </td>
+        <td class="xg1"><!--{if $type == 'navigation'}-->
+            <!--{eval echo $navtypes['g1'][$script['type']] ? $navtypes['g1'][$script['type']]['desc'] : $navtypes['g2'][$script['type']]['desc']}-->
+            <!--{if $script[description]}--> - <!--{/if}--><!--{/if}-->$script[description]
+        </td>
+        <td class="details">
+            <!--a href="javascript:;" onclick="removeTableRow('$type', this);">-{eval echo $devlang['plugins_script_delete'];}</a-->
+            <a href="develop.php?mod=plugins&action=edit&operation=script&pluginid=$pluginid&type=$type&filename=$filename">Detail</a>
+        </td>
+    </tr>
+    <!--{/loop}-->
+    <!--{/if}-->
+    </tbody>
+</table>
+<!--{/loop}-->
+
+<table class="dt mbw">
+    <tr>
+        <td class="time">The installation script</td>
+        <td width="300">install.php</td>
+        <td></td>
+        <td class="details"><a
+                href="develop.php?mod=plugins&action=edit&operation=script&pluginid=$pluginid&type=system&filename=install">Detail</a>
+        </td>
+    </tr>
+    <tr>
+        <td>Uninstall script</td>
+        <td>uninstall.php</td>
+        <td></td>
+        <td class="details"><a
+                href="develop.php?mod=plugins&action=edit&operation=script&pluginid=$pluginid&type=system&filename=uninstall">Detail</a>
+        </td>
+    </tr>
+    <tr>
+        <td>Upgrade script</td>
+        <td>upgrade.php</td>
+        <td></td>
+        <td class="details"><a
+                href="develop.php?mod=plugins&action=edit&operation=script&pluginid=$pluginid&type=system&filename=upgrade">Detail</a>
+        </td>
+    </tr>
+</table>
+
+<div class="mtm pbm">
+    <button value="true" class="pn pnc" name="addsubmit" type="submit"><strong><!--{if $action == 'edit'}-->Submitted
+        <!--{else}-->Next<!--{/if}--></strong></button>
+    <!--{if $action == 'create'}-->
+    &nbsp;<a href="develop.php?mod=plugins&action=create&operation=setting&pluginid=$pluginid">Jump over</a>
+    <!--{/if}-->
+</div>
+<script type="text/javascript">
+    function addTableRow(type) {
+        var newNode;
+        newNode = $(type + 'row').cloneNode(true);
+        newNode.removeAttribute('id');
+        newNode.removeAttribute('style');
+        $(type + 'box').appendChild(newNode);
+    }
+    function removeTableRow(type, obj) {
+        $(type + 'box').removeChild(obj.parentNode.parentNode);
+    }
+</script>
+<!--{elseif in_array($type, $basetype)}-->
+<ul class="tbmu bbda">
+    <li>HookId_outputType of hook only enabled HookId only after effective</li>
+</ul>
+<table class="dt mbm">
+    <!--{if $module[hooks]}-->
+    <!--{loop $module[hooks] $sort $value}-->
+    <!--{loop $value $file $allhook}-->
+    <tr>
+        <td>
+            <strong>$hooklist[$sort]['lang'] -> $file</strong>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <ul>
+                <!--{loop $hooklist[$sort][$file] $key $hval}-->
+                <li class="pbn"><label{if in_array($key, $allhook)} class="xi1"{/if}><input type="checkbox"
+                                                                                            name="hooks[$sort][$file][$key]"
+                                                                                            class="pc" value="$key" {if
+                    in_array($key, $allhook)} checked="checked"{/if} />($hval[return]) $key{if $hval[version]} <span
+                            class="cv">$hval[version]</span>{/if}</label></li>
+                <!--{eval $outputkey = $key.'_output';}-->
+                <li class="pbn"><label{if in_array($outputkey, $allhook)} class="xi1"{/if}><input type="checkbox"
+                                                                                                  name="hooks[$sort][$file][$outputkey]"
+                                                                                                  class="pc"
+                                                                                                  value="$outputkey" {if
+                    in_array($outputkey, $allhook)} checked="checked"{/if} />($hval[return]) $outputkey{if
+                    $hval[version]} <span class="cv">$hval[version]</span>{/if}</label></li>
+                <!--{/loop}-->
+            </ul>
+        </td>
+    </tr>
+    <!--{/loop}-->
+    <!--{/loop}-->
+    <!--{/if}-->
+    <tr>
+        <td>
+            <div id="hookbox">
+                <select name="sort" id="sort" onchange="showhooklist()">
+                    <option value="0">Hook Category</option>
+                    <!--{loop $hooklist $group $page}-->
+                    <option value="$group">$page['lang']</option>
+                    <!--{/loop}-->
+                </select>&nbsp;
+            </div>
+            <script type="text/javascript">
+                function showhooklist() {
+                    var url = 'develop.php?mod=plugin&action=ajax&operation=gethook&type=$type&sort=' + $('sort').value;
+                    if ($('page')) {
+                        url += '&page=' + $('page').value;
+                    }
+                    ajaxget(url, 'hookbox');
+                }
+            </script>
+        </td>
+    </tr>
+    <tr class="bw0_all">
+        <td>
+            <button type="submit" class="pn pnc" name="addsubmit"><strong>Submitted</strong></button>
+            <input type="hidden" name="addhook" value="true"/>
+            <input type="hidden" name="type" value="$type"/>
+            <input type="hidden" name="filename" value="$filename"/>
+        </td>
+    </tr>
+</table>
+<!--{elseif $type == 'cron'}-->
+<table class="tfm mbm">
+    <tr>
+        <th>Script file</th>
+        <td>{$type}/{$type}_$module[name].php</td>
+        <td></td>
+    </tr>
+    <tr>
+        <th>Plan Task Name</th>
+        <td><input type="text" class="px" name="description" value="$module[description]"></td>
+        <td class="xg1">In order to facilitate memory, please fill in the name of the scheduled task</td>
+    </tr>
+    <tr>
+        <th>Weekly</th>
+        <td>
+            <select name="newweekday">
+                <!--{loop $days $value}-->
+                <!--{if 6 < $value}--><!--{eval break;}--><!--{/if}-->
+                <option value="$value"
+                {if $module[weekday] == $value} selected="selected"{/if}><!--{if $value==-1}-->*<!--{else}-->
+                $week[$value]<!--{/if}--></option>
+                <!--{/loop}-->
+            </select>
+        </td>
+        <td class="xg1">Set day of the week to perform this task, "*" is not restrictive, and the setting will override
+            the following "day" setting
+        </td>
+    </tr>
+    <tr>
+        <th>每月</th>
+        <td>
+            <select name="newday">
+                <!--{loop $days $value}-->
+                <!--{if $value == 0}--><!--{eval continue;}--><!--{/if}-->
+                <option value="$value"
+                {if $module[day] == $value} selected="selected"{/if}><!--{if $value==-1}-->*<!--{else}-->{$value}Japan
+                <!--{/if}--></option>
+                <!--{/loop}-->
+            </select>
+        </td>
+        <td class="xg1">What day is set to perform this task, "*" for no limit</td>
+    </tr>
+    <tr>
+        <th>小时</th>
+        <td>
+            <select name="newhour">
+                <!--{loop $days $value}-->
+                <!--{if 23 < $value}--><!--{eval break;}--><!--{/if}-->
+                <option value="$value"
+                {if $module[hour] == $value} selected="selected"{/if}><!--{if $value==-1}-->*<!--{else}-->{$value}时
+                <!--{/if}--></option>
+                <!--{/loop}-->
+            </select>
+        </td>
+        <td class="xg1">Set the hour of the execution of this task, "*" for no limit</td>
+    </tr>
+    <tr>
+        <th>分钟</th>
+        <td><input type="text" class="px" name="newminute" value="$module[minute]"></td>
+        <td class="xg1">Minute set which perform this task, you can set up to 12 minutes value, multiple values with
+            commas "," separated, we leave it blank for no limit
+        </td>
+    </tr>
+    <tr>
+        <th></th>
+        <td colspan="2">
+            <button type="submit" name="addsubmit" class="pn pnc"><strong>Submitted</strong></button>
+            <input type="hidden" name="editcron" value="true"/>
+            <input type="hidden" name="type" value="$type"/>
+            <input type="hidden" name="filename" value="$filename"/>
+        </td>
+    </tr>
+</table>
+<!--{elseif in_array($type, array('magic', 'adv', 'task', 'secqaa', 'seccode'))}-->
+<table class="tfm mbm">
+    <tr>
+        <th>Script file</th>
+        <td>{$type}/{$type}_$module[name].php</td>
+        <td></td>
+    </tr>
+    <tr>
+        <th>Script Name</th>
+        <td><input type="text" class="px" name="description" value="$module[description]"></td>
+        <td class="xg1">In order to facilitate memory, please fill out the script name</td>
+    </tr>
+    <tr>
+        <th></th>
+        <td colspan="2">
+            <button type="submit" name="addsubmit" class="pn pnc"><strong>Submitted</strong></button>
+            <input type="hidden" name="editadv" value="true"/>
+            <input type="hidden" name="type" value="$type"/>
+            <input type="hidden" name="filename" value="$filename"/>
+        </td>
+    </tr>
+</table>
+<!--{elseif $type == 'navigation'}-->
+<table class="tfm mbm">
+    <tr>
+        <th>Script file</th>
+        <td><input type="text" name="name" class="px" value="$module[name]" style="width:120px"><span
+                id="e_$module[name]">.inc.php</span></td>
+        <td class="xg1"></td>
+    </tr>
+    <tr>
+        <th>Module Type</th>
+        <td>
+            <select id="s_$module[name]" name="newtype" onchange="shide(this, '$module[name]')" class="ps">
+                <!--{loop $navtypes $group $navs}-->
+                <optgroup label="{eval echo $devlang['plugins_edit_modules_type_'.$group]}">
+                    <!--{loop $navs $typeid $nav}-->
+                    <option value="$typeid" h="$nav[h]"
+                    , e="$nav[e]"{if $typeid == $module[type]} selected="selected"{/if}>$nav[desc]</option>
+                    <!--{/loop}-->
+                </optgroup>
+                <!--{/loop}-->
+            </select>
+        </td>
+        <td class="xg1"></td>
+    </tr>
+    <tr id="m_$module[name]">
+        <th>Link Name</th>
+        <td><input type="text" name="menu" class="px" value="$module[menu]"></td>
+        <td class="xg1"></td>
+    </tr>
+    <tr id="u_$module[name]">
+        <th>Link URL</th>
+        <td>
+            <input type="text" name="url" onchange="shide($('s_{$module[name]}'), '{$module[name]}')"
+                   id="url_$module[name]" class="px" value="$module[url]">
+        </td>
+        <td class="xg1"></td>
+    </tr>
+    <tr id="a_$module[name]">
+        <th>Use Level</th>
+        <td>
+            <select name="adminid">
+                <!--{loop $allowgroup $key $desc}-->
+                <option value="$key"
+                {if $key == $module[adminid]} selected="selected"{/if}>$desc</option>
+                <!--{/loop}-->
+            </select>
+        </td>
+        <td class="xg1"></td>
+    </tr>
+    <tr id="o_$module[name]">
+        <th>Display Order</th>
+        <td><input type="text" name="order" class="px" value="$module[displayorder]"></td>
+        <td class="xg1"></td>
+    </tr>
+    <tbody id="n_$module[name]">
+    <tr id="nt_$module[name]">
+        <th>Navigation instructions</th>
+        <td><input type="text" name="navtitle" class="px" value="$module[navtitle]"></td>
+        <td class="xg1"></td>
+    </tr>
+    <tr id="ni_$module[name]">
+        <th>Navigation icon</th>
+        <td><input type="text" name="navicon" class="px" value="$module[navicon]"></td>
+        <td class="xg1"></td>
+    </tr>
+    <tr id="nsn_$module[name]">
+        <th>Deputy navigation Name</th>
+        <td><input type="text" name="navsubname" class="px" value="$module[navsubname]"></td>
+        <td class="xg1"></td>
+    </tr>
+    <tr id="nsu_$module[name]">
+        <th>Deputy navigation links</th>
+        <td><input type="text" name="navsuburl" class="px" value="$module[navsuburl]"></td>
+        <td class="xg1"></td>
+    </tr>
+    </tbody>
+    <tr>
+        <th></th>
+        <td colspan="2">
+            <button type="submit" name="addsubmit" class="pn pnc"><strong>Submitted</strong></button>
+            <input type="hidden" name="editnav" value="true"/>
+            <input type="hidden" name="type" value="$type"/>
+            <input type="hidden" name="filename" value="$filename"/>
+        </td>
+    </tr>
+</table>
+<script type="text/javascript">
+    function shide(obj, id) {
+        v = obj.options[obj.selectedIndex].getAttribute("h");
+        $("m_" + id).style.display = v.substr(0, 1) == "1" ? "" : "none";
+        $("u_" + id).style.display = v.substr(1, 1) == "1" ? "" : "none";
+        $("a_" + id).style.display = v.substr(2, 1) == "1" ? "" : "none";
+        $("o_" + id).style.display = v.substr(3, 1) == "1" ? "" : "none";
+        if (v.substr(4, 1)) {
+            $("n_" + id).style.display = v.substr(4, 1) == "1" ? "" : "none";
+            $("nt_" + id).style.display = v.substr(4, 1) == "1" ? "" : "none";
+            $("ni_" + id).style.display = v.substr(5, 1) == "1" ? "" : "none";
+            $("nsn_" + id).style.display = v.substr(6, 1) == "1" ? "" : "none";
+            $("nsu_" + id).style.display = v.substr(6, 1) == "1" ? "" : "none";
+        } else {
+            $("n_" + id).style.display = "none";
+        }
+        e = obj.options[obj.selectedIndex].getAttribute("e");
+        $("e_" + id).innerHTML = e && ($("url_" + id).value == '' || $("u_" + id).style.display == "none") ? "." + e + ".php" : "";
+    }
+    shide($('s_{$module[name]}'), '{$module[name]}');
+</script>
+<!--{elseif $type == 'system'}-->
+<table class="tfm mbm">
+    <!--{if $filename == 'install'}-->
+    <tr>
+        <th>Install SQL statements</th>
+        <td><textarea class="pt" cols="60" rows="5" name="install">$extra[install]</textarea></td>
+        <td class="xg1">Fill in the table structure SQL this widget</td>
+    </tr>
+    <!--{elseif $filename == 'uninstall'}-->
+    <tr>
+        <th>Uninstall SQL statements</th>
+        <td><textarea class="pt" cols="60" rows="5" name="uninstall">$extra[uninstall]</textarea></td>
+        <td class="xg1">Fill this widget uninstall SQL statements</td>
+    </tr>
+    <!--{elseif $filename == 'upgrade'}-->
+    <tr>
+        <th>Plug-in upgrade Code</th>
+        <td><textarea class="pt" cols="60" rows="5" name="upgrade">$extra[upgrade]</textarea></td>
+        <td class="xg1">Fill upgrade PHP code for this plugin</td>
+    </tr>
+    <!--{/if}-->
+    <tr>
+        <th></th>
+        <td class="ptm">
+            <button value="true" class="pn pnc" name="pluginsbt" type="submit"><strong>Submitted</strong></button>
+            <input type="hidden" name="editsystem" value="true"/>
+            <input type="hidden" name="type" value="$type"/>
+            <input type="hidden" name="filename" value="$filename"/>
+        </td>
+    </tr>
+</table>
+<!--{/if}-->
