@@ -2,7 +2,7 @@
 /**
  * 2015 Webmaster Gambit
  * Discuz! Develop
- * http://webmaster-gambit.com/
+ * http://webmaster-gambit.ru/
  * 1.0.0
  */
 
