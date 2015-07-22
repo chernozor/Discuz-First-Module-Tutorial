@@ -1,11 +1,11 @@
 # Discuz-Module-Generator
 Develop - инструмент для быстрого создания Плагина для Discuz! CMS
 
- Tags: my first module, Discuz!, tutorial, create plugin
- Requires at least: 1.x
- Tested up to: 3.x
- Stable tag: 1.0
- License: GNU General Public License, version 2
+Tags: my first module, Discuz!, tutorial, create plugin
+Requires at least: 1.x
+Tested up to: 3.x
+Stable tag: 1.0
+License: GNU General Public License, version 2
 
 ##Develop
 
