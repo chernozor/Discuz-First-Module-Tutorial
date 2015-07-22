@@ -1,5 +1,5 @@
-# Discuz-First-Module-Tutorial
-Инструмент для быстрого создания Плагина для Discuz! CMS
+# Discuz-Module-Generator
+Develop - инструмент для быстрого создания Плагина для Discuz! CMS
 
  Tags: my first module, Discuz!, tutorial, create plugin
 
